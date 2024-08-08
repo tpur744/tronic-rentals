@@ -8,6 +8,12 @@ class Car {
   Car(const std::string& number_plate, const std::string& model,
       double rental_fee);
 
+  // getter methods
+  std::string get_number_plate() const;
+  std::string get_model() const;
+  double get_rental_fee() const;
+  bool is_available() const;
+
  private:
   std::string number_plate_;
   std::string model_;
