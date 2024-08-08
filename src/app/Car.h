@@ -5,8 +5,8 @@
 
 class Car {
  public:
-  Car(const std::string& number_plate, const std::string& model,
-      double rental_fee);
+  Car(const std::string &registration_plate, const std::string &make,
+      double daily_rental_fee);
 
   // getter methods
   std::string get_number_plate() const;
@@ -15,9 +15,9 @@ class Car {
   bool is_available() const;
 
  private:
-  std::string number_plate_;
-  std::string model_;
-  double rental_fee_;
+  std::string registration_plate_;
+  std::string make_;
+  double daily_rental_fee_;
   bool is_available_;
 };
 
