@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "Car.h"
+
 /*
 ----------------------------------------------------------------------------
   This is where you start.
@@ -13,6 +15,8 @@
 
 class App {
  private:
+  std::vector<Car> cars_;
+
  public:
   App();
   void CreateCar(const std::string &registration_plate, const std::string &make,
