@@ -11,7 +11,6 @@ Car::Car(const std::string &registration_plate, const std::string &make,
   daily_rental_fee_ = daily_rental_fee;
   is_available_ = true;
 }
-
 std::string Car::GetNumberPlate() const { return registration_plate_; }
 
 std::string Car::GetModel() const { return make_; }

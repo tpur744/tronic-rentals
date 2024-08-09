@@ -68,7 +68,8 @@ void App::CreateCar(const std::string &registration_plate,
   }
   Car *new_car = new Car(upper_plate, formatted_make, daily_rental_fee);
   cars_.push_back(new_car);
-  cout << "Car with registration plate '" << upper_plate << "' created.";
+  cout << "Car with registration plate '" << upper_plate << "' created."
+       << endl;
 }
 
 void App::DisplayCars() const {
@@ -88,7 +89,9 @@ void App::DisplayCars() const {
   for (size_t i = 0; i < count; i++) {
     // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
-      cout << cars_[i]->GetModel() << endl;
+      cout << "* '" << cars_[i]->GetNumberPlate() << "' - "
+           << cars_[i]->GetModel() << ", " << "$" << cars_[i]->GetRentalFee()
+           << "/day, " << "available" << endl;
     }
   }
 }
