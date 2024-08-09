@@ -34,6 +34,7 @@ void App::DisplayCars() const {
     // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
       cout << cars_[i]->GetNumberPlate() << endl;
+      cout << "CAR CREATED" << endl;
     }
   }
 }
