@@ -1,7 +1,9 @@
 #include "app.h"
 
 #include <iostream>
+#include <string>
 
+#include "Car.h"
 #include "message.h"
 #include "utils.h"
 
@@ -16,6 +18,7 @@ using namespace std;
 
 App::App() {
   // TODO implement
+  cout << "test" << endl;
 }
 
 void App::CreateCar(const std::string &registration_plate,

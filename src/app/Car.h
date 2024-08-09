@@ -9,10 +9,10 @@ class Car {
       double daily_rental_fee);
 
   // getter methods
-  std::string get_number_plate() const;
-  std::string get_model() const;
-  double get_rental_fee() const;
-  bool is_available() const;
+  std::string GetNumberPlate() const;
+  std::string GetModel() const;
+  double GetRentalFee() const;
+  bool IsAvailable() const;
 
  private:
   std::string registration_plate_;
