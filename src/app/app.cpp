@@ -66,6 +66,19 @@ void App::CreateCar(const std::string &registration_plate,
          << "' already exists." << endl;
     return;
   }
+
+  int fee;
+  fee = stoi(daily_rental_fee);
+  if (fee <= 0) {
+    cout << "Rental fee must be greater than 0. Car not created." << endl;
+    return;
+  }
+
+  if (!Utils::IsInteger(daily_rental_fee)) {
+    cout << "Rental fee must be numeric. Car not created." << endl;
+    return;
+  }
+
   Car *new_car = new Car(upper_plate, formatted_make, daily_rental_fee);
   cars_.push_back(new_car);
   cout << "Car with registration plate '" << upper_plate << "' created."
