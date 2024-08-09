@@ -6,18 +6,20 @@
 class Car {
  public:
   Car(const std::string &registration_plate, const std::string &make,
-      double daily_rental_fee);
+      std::string daily_rental_fee);
+
+  void PrintCarDetails() const;
 
   // getter methods
   std::string GetNumberPlate() const;
   std::string GetModel() const;
-  double GetRentalFee() const;
+  std::string GetRentalFee() const;
   bool IsAvailable() const;
 
  private:
   std::string registration_plate_;
   std::string make_;
-  double daily_rental_fee_;
+  std::string daily_rental_fee_;
   bool is_available_;
 };
 
