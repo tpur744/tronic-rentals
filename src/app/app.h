@@ -17,6 +17,9 @@ class App {
  private:
   std::vector<Car *> cars_;
 
+  bool IsValidRegistrationPlate(const std::string &registration_plate);
+  bool IsUniqueRegistrationPlatd(const std::string &registration_plate) const;
+
  public:
   App();
   void CreateCar(const std::string &registration_plate, const std::string &make,
