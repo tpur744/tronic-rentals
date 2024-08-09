@@ -31,12 +31,26 @@ bool App::IsValidRegistrationPlate(const std::string &registration_plate) {
   return true;
 }
 
+bool App::IsUniqueRegistrationPlate(
+    const std::string &registration_plate) const {
+  int count = cars_.size();
+  for (size_t i = 0; i < count; i++) {
+    if (cars_[i]->GetNumberPlate() == registration_plate) return false;
+  }
+  return true;
+}
+
 void App::CreateCar(const std::string &registration_plate,
                     const std::string &make,
                     const std::string &daily_rental_fee) {
   // Create a new Car object on the heap and store the pointer in the vector
   if (!IsValidRegistrationPlate(registration_plate)) {
     cout << "invalid plate" << endl;
+    return;
+  }
+
+  if (!IsUniqueRegistrationPlate(registration_plate)) {
+    cout << "duplicate plate" << endl;
     return;
   }
   Car *new_car = new Car(registration_plate, make, daily_rental_fee);
