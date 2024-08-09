@@ -21,21 +21,24 @@ App::App() {
 }
 
 bool App::IsValidRegistrationPlate(const std::string &registration_plate) {
-  if (registration_plate.length() != 6) return false;
+  std::string trimmed_plate = Utils::TrimString(registration_plate);
+  if (trimmed_plate.length() != 6) return false;
   for (int i = 0; i < 3; i++) {
-    if (!isalpha(registration_plate[i])) return false;
+    if (!isalpha(trimmed_plate[i])) return false;
   }
   for (int i = 3; i < 6; i++) {
-    if (!isdigit(registration_plate[i])) return false;
+    if (!isdigit(trimmed_plate[i])) return false;
   }
   return true;
 }
 
 bool App::IsUniqueRegistrationPlate(
     const std::string &registration_plate) const {
+  std::string upper_plate = Utils::GetUppercase(registration_plate);
   int count = cars_.size();
   for (size_t i = 0; i < count; i++) {
-    if (cars_[i]->GetNumberPlate() == registration_plate) return false;
+    if (Utils::GetUppercase(cars_[i]->GetNumberPlate()) == registration_plate)
+      return false;
   }
   return true;
 }
@@ -43,17 +46,18 @@ bool App::IsUniqueRegistrationPlate(
 void App::CreateCar(const std::string &registration_plate,
                     const std::string &make,
                     const std::string &daily_rental_fee) {
-  // Create a new Car object on the heap and store the pointer in the vector
-  if (!IsValidRegistrationPlate(registration_plate)) {
+  std::string upper_plate = Utils::GetUppercase(registration_plate);
+
+  if (!IsValidRegistrationPlate(upper_plate)) {
     cout << "invalid plate" << endl;
     return;
   }
 
-  if (!IsUniqueRegistrationPlate(registration_plate)) {
+  if (!IsUniqueRegistrationPlate(upper_plate)) {
     cout << "duplicate plate" << endl;
     return;
   }
-  Car *new_car = new Car(registration_plate, make, daily_rental_fee);
+  Car *new_car = new Car(upper_plate, make, daily_rental_fee);
   cars_.push_back(new_car);
 }
 

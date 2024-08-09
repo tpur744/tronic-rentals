@@ -10,7 +10,6 @@ Car::Car(const std::string &registration_plate, const std::string &make,
   make_ = make;
   daily_rental_fee_ = daily_rental_fee;
   is_available_ = true;
-  cout << "creating a car with plate " << registration_plate_ << endl;
 }
 
 std::string Car::GetNumberPlate() const { return registration_plate_; }
