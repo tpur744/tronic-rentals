@@ -67,15 +67,15 @@ void App::CreateCar(const std::string &registration_plate,
     return;
   }
 
+  if (!Utils::IsInteger(daily_rental_fee)) {
+    cout << "Rental fee must be numeric. Car not created." << endl;
+    return;
+  }
+
   int fee;
   fee = stoi(daily_rental_fee);
   if (fee <= 0) {
     cout << "Rental fee must be greater than 0. Car not created." << endl;
-    return;
-  }
-
-  if (!Utils::IsInteger(daily_rental_fee)) {
-    cout << "Rental fee must be numeric. Car not created." << endl;
     return;
   }
 
