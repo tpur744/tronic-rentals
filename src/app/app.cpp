@@ -47,27 +47,48 @@ void App::CreateCar(const std::string &registration_plate,
                     const std::string &make,
                     const std::string &daily_rental_fee) {
   std::string upper_plate = Utils::GetUppercase(registration_plate);
+  std::string formatted_make = make;
+
+  if (!formatted_make.empty()) {
+    formatted_make[0] = toupper(formatted_make[0]);
+    for (size_t i = 1; i < formatted_make.length(); i++) {
+      formatted_make[i] = tolower(formatted_make[i]);
+    }
+  }
 
   if (!IsValidRegistrationPlate(upper_plate)) {
-    cout << "invalid plate" << endl;
+    cout << "Invalid registration plate '" << upper_plate
+         << "'. Car not created." << endl;
     return;
   }
-
   if (!IsUniqueRegistrationPlate(upper_plate)) {
-    cout << "duplicate plate" << endl;
+    cout << "Car with registration plate '" << upper_plate
+         << "' already exists." << endl;
     return;
   }
-  Car *new_car = new Car(upper_plate, make, daily_rental_fee);
+  Car *new_car = new Car(upper_plate, formatted_make, daily_rental_fee);
   cars_.push_back(new_car);
+  cout << "Car with registration plate '" << upper_plate << "' created.";
 }
 
 void App::DisplayCars() const {
   int count = cars_.size();
+  if (count == 0) {
+    cout << "No cars available." << endl;
+    return;
+  }
+
+  // Display the number of cars with correct grammar
+  if (count == 1) {
+    cout << "There is 1 car in the system: " << endl;
+  } else {
+    cout << "There are " << count << " cars in the system:" << endl;
+  }
+
   for (size_t i = 0; i < count; i++) {
     // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
-      cout << cars_[i]->GetNumberPlate() << endl;
-      cout << "CAR CREATED" << endl;
+      cout << cars_[i]->GetModel() << endl;
     }
   }
 }
