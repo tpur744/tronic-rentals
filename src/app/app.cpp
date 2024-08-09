@@ -18,17 +18,24 @@ using namespace std;
 
 App::App() {
   // TODO implement
-  cout << "test" << endl;
 }
 
 void App::CreateCar(const std::string &registration_plate,
                     const std::string &make,
                     const std::string &daily_rental_fee) {
-  // TODO implement
+  // Create a new Car object on the heap and store the pointer in the vector
+  Car *new_car = new Car(registration_plate, make, daily_rental_fee);
+  cars_.push_back(new_car);
 }
 
 void App::DisplayCars() const {
-  // TODO implement
+  int count = cars_.size();
+  for (size_t i = 0; i < count; i++) {
+    // Ensure cars_[i] is not null before dereferencing
+    if (cars_[i] != nullptr) {
+      cout << cars_[i]->GetNumberPlate() << endl;
+    }
+  }
 }
 
 void App::ConfigureDate(const std::string &date) {

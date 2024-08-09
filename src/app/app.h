@@ -15,7 +15,7 @@
 
 class App {
  private:
-  std::vector<Car> cars_;
+  std::vector<Car *> cars_;
 
  public:
   App();
