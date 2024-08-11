@@ -6,7 +6,7 @@
 class Car {
  public:
   Car(const std::string &registration_plate, const std::string &make,
-      std::string daily_rental_fee);
+      const std::string &daily_rental_fee);
 
   void PrintCarDetails() const;
 

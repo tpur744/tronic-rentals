@@ -5,7 +5,7 @@
 using namespace std;
 
 Car::Car(const std::string &registration_plate, const std::string &make,
-         std::string daily_rental_fee) {
+         const std::string &daily_rental_fee) {
   registration_plate_ = registration_plate;
   make_ = make;
   daily_rental_fee_ = daily_rental_fee;
