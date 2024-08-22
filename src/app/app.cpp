@@ -111,10 +111,19 @@ void App::DisplayCars() const {
 
 void App::ConfigureDate(const std::string &date) {
   // TODO implement
+  if (system_date_.empty()) {
+    system_date_ = date;
+    std::cout << "Date configured to '" << date << "'." << std::endl;
+    return;
+  }
 }
-
 void App::DisplayDate() const {
-  // TODO implement
+  if (system_date_.empty()) {
+    std::cout << "Date has not been configured." << std::endl;
+  } else {
+    std::cout << "Current system date is '" << system_date_ << "'."
+              << std::endl;
+  }
 }
 
 void App::CreateRental(const std::vector<std::string> options) {
