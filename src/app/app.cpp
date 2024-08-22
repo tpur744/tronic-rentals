@@ -110,11 +110,30 @@ void App::DisplayCars() const {
 }
 
 void App::ConfigureDate(const std::string &date) {
-  // TODO implement
   if (system_date_.empty()) {
     system_date_ = date;
-    std::cout << "Date configured to '" << date << "'." << std::endl;
+    std::cout << "Date configured to '" << system_date_ << "'." << std::endl;
     return;
+  }
+
+  int new_day, new_month, new_year;
+  int current_day, current_month, current_year;
+
+  sscanf(date.c_str(), "%d/%d/%d", &new_day, &new_month, &new_year);
+  sscanf(system_date_.c_str(), "%d/%d/%d", &current_day, &current_month,
+         &current_year);
+
+  // Compare years, months, and days
+  if (new_year > current_year ||
+      (new_year == current_year && new_month > current_month) ||
+      (new_year == current_year && new_month == current_month &&
+       new_day >= current_day)) {
+    system_date_ = date;
+    std::cout << "Current date configured to '" << system_date_ << "'."
+              << std::endl;
+  } else {
+    std::cout << "Cannot configure to a date before the current date."
+              << std::endl;
   }
 }
 void App::DisplayDate() const {
