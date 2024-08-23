@@ -146,7 +146,38 @@ void App::DisplayDate() const {
 }
 
 void App::CreateRental(const std::vector<std::string> options) {
-  // TODO implement
+  if (system_date_.empty()) {
+    std::cout << "Date has not been configured." << std::endl;
+    return;
+  }
+  if (options.size() != 4) {
+    std::cout << "Error: Incorrect number of arguments provided." << std::endl;
+    return;
+  }
+
+  std::string registration_plate = options[0];
+  std::string start_date = options[1];
+  std::string end_date = options[2];
+  std::string customer_id = options[3];
+
+  if (!IsValidRegistrationPlate(registration_plate)) {
+    std::cout << "Error: Invalid plate." << std::endl;
+    return;
+  }
+  if (start_date < system_date_) {
+    std::cout << "Error: Start date cannot be in the past." << std::endl;
+    return;
+  }
+
+  if (end_date < start_date) {
+    std::cout << "Error: End date cannot be before start date." << std::endl;
+    return;
+  }
+  if (!IsCarAvailable(registration_plate, start_date, end_date)) {
+    std::cout << "Error: Car is already rented for the specified date range."
+              << std::endl;
+    return;
+  }
 }
 
 void App::DisplayRentals(const std::string &registration_plate) const {
