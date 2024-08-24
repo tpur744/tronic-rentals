@@ -173,11 +173,6 @@ void App::CreateRental(const std::vector<std::string> options) {
     std::cout << "Error: End date cannot be before start date." << std::endl;
     return;
   }
-  if (!IsCarAvailable(registration_plate, start_date, end_date)) {
-    std::cout << "Error: Car is already rented for the specified date range."
-              << std::endl;
-    return;
-  }
 }
 
 void App::DisplayRentals(const std::string &registration_plate) const {
