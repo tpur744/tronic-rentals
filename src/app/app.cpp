@@ -38,7 +38,7 @@ bool App::IsUniqueRegistrationPlate(
   std::string upper_plate = Utils::GetUppercase(registration_plate);
   int count = cars_.size();
   for (size_t i = 0; i < count; i++) {
-    if (Utils::GetUppercase(cars_[i]->GetNumberPlate()) == registration_plate)
+    if (Utils::GetUppercase(cars_[i]->GetNumberPlate()) == upper_plate)
       return false;
   }
   return true;
@@ -251,7 +251,20 @@ void App::CreateRental(const std::vector<std::string> options) {
 }
 
 void App::DisplayRentals(const std::string &registration_plate) const {
-  // TODO implement
+  if (system_date_.empty()) {
+    std::cout << "Date has not been configured." << std::endl;
+    return;
+  }
+  for (size_t i = 0; i < rentals_.size(); i++) {
+    if (rentals_[i]->GetNumberPlate() == registration_plate) {
+      std::cout << "* " << rentals_[i]->GetStartDate() << " - "
+                << rentals_[i]->GetEndDate() << " ("
+                << DaysBetweenDates(rentals_[i]->GetStartDate(),
+                                    rentals_[i]->GetEndDate())
+                << " days) - " << rentals_[i]->GetRentalReference()
+                << std::endl;
+    }
+  }
 }
 
 void App::AddGPSUnit(const std::string &rental_reference) {
