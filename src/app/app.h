@@ -23,6 +23,8 @@ class App {
   bool IsValidRegistrationPlate(const std::string &registration_plate);
   bool IsUniqueRegistrationPlate(const std::string &registration_plate) const;
   bool IsDateBefore(const std::string &date1, const std::string &date2) const;
+  int DaysBetweenDates(const std::string &start_date,
+                       const std::string &end_date) const;
 
  public:
   App();

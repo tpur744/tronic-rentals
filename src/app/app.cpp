@@ -126,6 +126,18 @@ bool App::IsDateBefore(const std::string &date1,
 
   return false;
 }
+
+int App::DaysBetweenDates(const std::string &start_date,
+                          const std::string &end_date) const {
+  int start_day, end_day;
+
+  // Parse the dates
+  sscanf(start_date.c_str(), "%d/%*d/%*d", &start_day);
+  sscanf(end_date.c_str(), "%d/%*d/%*d", &end_day);
+
+  // Calculate the difference in days
+  return (end_day - start_day) + 1;
+}
 void App::ConfigureDate(const std::string &date) {
   if (system_date_.empty()) {
     system_date_ = date;
@@ -152,49 +164,89 @@ void App::DisplayDate() const {
   }
 }
 
-void App::CreateRental(const std::vector<std::string> options) {}
-/* if (system_date_.empty()) {
-   std::cout << "Date has not been configured." << std::endl;
-   return;
- }
- if (options.size() != 4) {
-   std::cout << "Error: Incorrect number of arguments provided." << std::endl;
-   return;
- }
+void App::CreateRental(const std::vector<std::string> options) {
+  if (system_date_.empty()) {
+    std::cout << "Date has not been configured." << std::endl;
+    return;
+  }
 
- std::string registration_plate = Utils::GetUppercase(options[0]);
- std::string start_date = options[1];
- std::string end_date = options[2];
- std::string customer_id = Utils::GetLowercase(options[3]);
+  if (options.size() != 4) {
+    std::cout
+        << "Incorrect number of arguments for CreateRental. Expected 4, but "
+        << options.size() << " provided." << std::endl;
+    return;
+  }
 
- Car *car = nullptr;
- for (size_t i = 0; i < cars_.size(); i++) {
-   if (cars_[i]->GetNumberPlate() == registration_plate) {
-     car = cars_[i];
-     break;  // Exit the loop once the car is found
-   }
- }
+  std::string registration_plate = Utils::GetUppercase(options[0]);
+  std::string start_date = options[1];
+  std::string end_date = options[2];
+  std::string customer_id = Utils::GetLowercase(options[3]);
 
- if (start_date < system_date_) {
-   std::cout << "Error: Start date cannot be in the past." << std::endl;
-   return;
- }
+  // Check if the car exists
+  Car *car = nullptr;
+  for (size_t i = 0; i < cars_.size(); ++i) {
+    if (cars_[i]->GetNumberPlate() == registration_plate) {
+      car = cars_[i];
+      break;
+    }
+  }
 
- if (end_date < start_date) {
-   std::cout << "Error: End date cannot be before start date." << std::endl;
-   return;
- }
- for (size_t i = 0; i < rentals_.size(); ++i) {
-   if (rentals_[i]->GetNumberPlate() == registration_plate &&
-       rentals_[i]->OverlapsWith(start_date, end_date)) {
-     std::cout
-         << "Error: Car is already rented during the specified date range."
-         << std::endl;
-     return;
-   }
- }
+  if (car == nullptr) {
+    std::cout << "There is no car with the registration plate '"
+              << registration_plate << "'." << std::endl;
+    return;
+  }
+
+  // Validate dates
+  if (IsDateBefore(start_date, system_date_)) {
+    std::cout << "Start date must be today (" << system_date_ << ") or later."
+              << std::endl;
+    return;
+  }
+  if (IsDateBefore(end_date, start_date)) {
+    std::cout << "End date must be on or after the start date (" << start_date
+              << ")." << std::endl;
+    return;
+  }
+
+  // Check for overlapping rentals
+  for (size_t i = 0; i < rentals_.size(); ++i) {
+    if (rentals_[i]->GetNumberPlate() == registration_plate &&
+        rentals_[i]->OverlapsWith(start_date, end_date)) {
+      std::cout << "Car with registration plate '" << registration_plate
+                << "' is already rented at this time ("
+                << rentals_[i]->GetRentalReference() << ")." << std::endl;
+      return;
+    }
+  }
+
+  // Generate rental reference
+  int rental_count = 0;
+  for (size_t i = 0; i < rentals_.size(); ++i) {
+    if (rentals_[i]->GetNumberPlate() == registration_plate) {
+      rental_count++;
+    }
+  }
+  std::string rental_reference = "RR-" +
+                                 Utils::GetUppercase(registration_plate) + "-" +
+                                 std::to_string(rental_count + 1);
+
+  // Create and store the new rental
+  Rental *new_rental =
+      new Rental(registration_plate, car->GetModel(), car->GetRentalFee(),
+                 start_date, end_date, customer_id, rental_reference);
+  rentals_.push_back(new_rental);
+
+  // Calculate the number of days rented
+  int days_rented = DaysBetweenDates(start_date, end_date);
+
+  // Output confirmation
+  std::cout << "Car with registration plate '" << registration_plate
+            << "' is now rented to '" << customer_id << "' for " << days_rented
+            << " day" << (days_rented > 1 ? "s" : "")
+            << " with reference number '" << rental_reference << "'."
+            << std::endl;
 }
-*/
 
 void App::DisplayRentals(const std::string &registration_plate) const {
   // TODO implement
