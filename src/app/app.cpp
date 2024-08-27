@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Car.h"
+#include "Rental.h"
 #include "message.h"
 #include "utils.h"
 
@@ -109,6 +110,22 @@ void App::DisplayCars() const {
   }
 }
 
+bool App::IsDateBefore(const std::string &date1,
+                       const std::string &date2) const {
+  int day1, month1, year1;
+  int day2, month2, year2;
+
+  // Parse the dates
+  sscanf(date1.c_str(), "%d/%d/%d", &day1, &month1, &year1);
+  sscanf(date2.c_str(), "%d/%d/%d", &day2, &month2, &year2);
+
+  // Compare years, months, and days
+  if (year1 < year2) return true;
+  if (year1 == year2 && month1 < month2) return true;
+  if (year1 == year2 && month1 == month2 && day1 < day2) return true;
+
+  return false;
+}
 void App::ConfigureDate(const std::string &date) {
   if (system_date_.empty()) {
     system_date_ = date;
@@ -116,25 +133,15 @@ void App::ConfigureDate(const std::string &date) {
     return;
   }
 
-  int new_day, new_month, new_year;
-  int current_day, current_month, current_year;
-
-  sscanf(date.c_str(), "%d/%d/%d", &new_day, &new_month, &new_year);
-  sscanf(system_date_.c_str(), "%d/%d/%d", &current_day, &current_month,
-         &current_year);
-
-  // Compare years, months, and days
-  if (new_year > current_year ||
-      (new_year == current_year && new_month > current_month) ||
-      (new_year == current_year && new_month == current_month &&
-       new_day >= current_day)) {
-    system_date_ = date;
-    std::cout << "Current date configured to '" << system_date_ << "'."
-              << std::endl;
-  } else {
+  if (IsDateBefore(date, system_date_)) {
     std::cout << "Cannot configure to a date before the current date."
               << std::endl;
+    return;
   }
+
+  system_date_ = date;
+  std::cout << "Current date configured to '" << system_date_ << "'."
+            << std::endl;
 }
 void App::DisplayDate() const {
   if (system_date_.empty()) {
@@ -145,35 +152,49 @@ void App::DisplayDate() const {
   }
 }
 
-void App::CreateRental(const std::vector<std::string> options) {
-  if (system_date_.empty()) {
-    std::cout << "Date has not been configured." << std::endl;
-    return;
-  }
-  if (options.size() != 4) {
-    std::cout << "Error: Incorrect number of arguments provided." << std::endl;
-    return;
-  }
+void App::CreateRental(const std::vector<std::string> options) {}
+/* if (system_date_.empty()) {
+   std::cout << "Date has not been configured." << std::endl;
+   return;
+ }
+ if (options.size() != 4) {
+   std::cout << "Error: Incorrect number of arguments provided." << std::endl;
+   return;
+ }
 
-  std::string registration_plate = options[0];
-  std::string start_date = options[1];
-  std::string end_date = options[2];
-  std::string customer_id = options[3];
+ std::string registration_plate = Utils::GetUppercase(options[0]);
+ std::string start_date = options[1];
+ std::string end_date = options[2];
+ std::string customer_id = Utils::GetLowercase(options[3]);
 
-  if (!IsValidRegistrationPlate(registration_plate)) {
-    std::cout << "Error: Invalid plate." << std::endl;
-    return;
-  }
-  if (start_date < system_date_) {
-    std::cout << "Error: Start date cannot be in the past." << std::endl;
-    return;
-  }
+ Car *car = nullptr;
+ for (size_t i = 0; i < cars_.size(); i++) {
+   if (cars_[i]->GetNumberPlate() == registration_plate) {
+     car = cars_[i];
+     break;  // Exit the loop once the car is found
+   }
+ }
 
-  if (end_date < start_date) {
-    std::cout << "Error: End date cannot be before start date." << std::endl;
-    return;
-  }
+ if (start_date < system_date_) {
+   std::cout << "Error: Start date cannot be in the past." << std::endl;
+   return;
+ }
+
+ if (end_date < start_date) {
+   std::cout << "Error: End date cannot be before start date." << std::endl;
+   return;
+ }
+ for (size_t i = 0; i < rentals_.size(); ++i) {
+   if (rentals_[i]->GetNumberPlate() == registration_plate &&
+       rentals_[i]->OverlapsWith(start_date, end_date)) {
+     std::cout
+         << "Error: Car is already rented during the specified date range."
+         << std::endl;
+     return;
+   }
+ }
 }
+*/
 
 void App::DisplayRentals(const std::string &registration_plate) const {
   // TODO implement

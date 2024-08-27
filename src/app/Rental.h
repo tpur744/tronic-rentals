@@ -5,10 +5,10 @@
 
 class Rental : public Car {
  public:
- Rental(const std::string &registration_plate, const std::string &make,
-         const std::string &daily_rental_fee, const std::string &start_date,
-         const std::string &end_date, const std::string &customer_id,
-         const std::string &rental_reference);
+	Rental(const std::string &registration_plate, const std::string &make,
+               const std::string &daily_rental_fee, const std::string &start_date,
+               const std::string &end_date, const std::string &customer_id,
+               const std::string &rental_reference);
 
 	std::string GetStartDate() const;
   std::string GetEndDate() const;

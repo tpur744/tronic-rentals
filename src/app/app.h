@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Car.h"
+#include "Rental.h"
 
 /*
 ----------------------------------------------------------------------------
@@ -16,10 +17,12 @@
 class App {
  private:
   std::vector<Car *> cars_;
+  std::vector<Rental *> rentals_;
   std::string system_date_;
 
   bool IsValidRegistrationPlate(const std::string &registration_plate);
   bool IsUniqueRegistrationPlate(const std::string &registration_plate) const;
+  bool IsDateBefore(const std::string &date1, const std::string &date2) const;
 
  public:
   App();
