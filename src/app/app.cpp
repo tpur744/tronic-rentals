@@ -255,15 +255,35 @@ void App::DisplayRentals(const std::string &registration_plate) const {
     std::cout << "Date has not been configured." << std::endl;
     return;
   }
+
+  bool rental_found = false;
+  bool upcoming_rentals_found = false;
+
   for (size_t i = 0; i < rentals_.size(); i++) {
     if (rentals_[i]->GetNumberPlate() == registration_plate) {
-      std::cout << "* " << rentals_[i]->GetStartDate() << " - "
-                << rentals_[i]->GetEndDate() << " ("
-                << DaysBetweenDates(rentals_[i]->GetStartDate(),
-                                    rentals_[i]->GetEndDate())
-                << " days) - " << rentals_[i]->GetRentalReference()
-                << std::endl;
+      rental_found = true;
+      std::string start_date = rentals_[i]->GetStartDate();
+      std::string end_date = rentals_[i]->GetEndDate();
+
+      bool is_current = IsDateBefore(start_date, system_date_);
+      bool is_upcoming = IsDateBefore(system_date_, end_date);
+
+      if (is_current || is_upcoming) {
+        if (is_upcoming) {
+          upcoming_rentals_found = true;
+        }
+        std::cout << "* " << start_date << " - " << end_date << " ("
+                  << DaysBetweenDates(start_date, end_date) << " days) - "
+                  << rentals_[i]->GetRentalReference() << std::endl;
+      }
     }
+  }
+
+  if (!rental_found) {
+    std::cout << "There is no car with the registration plate "
+              << registration_plate << std::endl;
+  } else if (!upcoming_rentals_found) {
+    std::cout << "No upcoming rentals." << std::endl;
   }
 }
 
