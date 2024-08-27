@@ -210,9 +210,11 @@ void App::CreateRental(const std::vector<std::string> options) {
   }
 
   // Check for overlapping rentals
-  for (size_t i = 0; i < rentals_.size(); ++i) {
+  for (size_t i = 0; i < rentals_.size(); i++) {
+    std::string r_start = rentals_[i]->GetStartDate();
+    std::string r_end = rentals_[i]->GetEndDate();
     if (rentals_[i]->GetNumberPlate() == registration_plate &&
-        rentals_[i]->OverlapsWith(start_date, end_date)) {
+        rentals_[i]->OverlapsWith(r_start, r_end, start_date, end_date)) {
       std::cout << "Car with registration plate '" << registration_plate
                 << "' is already rented at this time ("
                 << rentals_[i]->GetRentalReference() << ")." << std::endl;

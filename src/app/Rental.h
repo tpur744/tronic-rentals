@@ -14,7 +14,8 @@ class Rental : public Car {
   std::string GetEndDate() const;
   std::string GetCustomerId() const;
   std::string GetRentalReference() const;
-  bool OverlapsWith(const std::string &start_date, const std::string &end_date) const;
+  bool OverlapsWith(const std::string &r_start_date, const std::string &r_end_date,
+	 const std::string &new_start_date,const std::string &new_end_date) const;
 
  private:
   std::string start_date_;
