@@ -265,7 +265,18 @@ void App::DisplayRentals(const std::string &registration_plate) const {
 
   bool rental_found = false;
   bool upcoming_rentals_found = false;
+  bool car_exists = false;
 
+  // Check if the car exists
+  for (size_t i = 0; i < cars_.size(); i++) {
+    if (cars_[i]->GetNumberPlate() == upper_registration_plate) {
+      car_exists = true;
+      cout << "CAR FOUND" << endl;
+      break;
+    }
+  }
+
+  // Display rentals if the car exists
   for (size_t i = 0; i < rentals_.size(); i++) {
     if (rentals_[i]->GetNumberPlate() == upper_registration_plate) {
       rental_found = true;
@@ -285,10 +296,11 @@ void App::DisplayRentals(const std::string &registration_plate) const {
     }
   }
 
-  if (!rental_found) {
+  // Output the appropriate message based on the results
+  if (!car_exists) {
     std::cout << "There is no car with the registration plate "
               << registration_plate << std::endl;
-  } else if (!upcoming_rentals_found) {
+  } else if (!rental_found) {
     std::cout << "No upcoming rentals." << std::endl;
   }
 }
