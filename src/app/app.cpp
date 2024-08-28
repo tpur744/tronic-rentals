@@ -103,13 +103,14 @@ void App::DisplayCars() const {
   for (size_t i = 0; i < count; i++) {
     // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
-      cout << "* '" << cars_[i]->GetNumberPlate() << "' - "
-           << cars_[i]->GetModel() << ", " << "$" << cars_[i]->GetRentalFee()
-           << "/day, " << "available" << endl;
+      std::cout << "* '" << cars_[i]->GetNumberPlate() << "' - "
+                << cars_[i]->GetModel() << ", " << "$"
+                << cars_[i]->GetRentalFee() << "/day, "
+                << (cars_[i]->IsAvailable() ? "available" : "not available")
+                << std::endl;
     }
   }
 }
-
 bool App::IsDateBefore(const std::string &date1,
                        const std::string &date2) const {
   int day1, month1, year1;
@@ -239,6 +240,8 @@ void App::CreateRental(const std::vector<std::string> options) {
                  start_date, end_date, customer_id, rental_reference);
   rentals_.push_back(new_rental);
 
+  car->SetAvailability(false);
+
   // Calculate the number of days rented
   int days_rented = DaysBetweenDates(start_date, end_date);
 
@@ -256,11 +259,14 @@ void App::DisplayRentals(const std::string &registration_plate) const {
     return;
   }
 
+  std::string upper_registration_plate =
+      Utils::GetUppercase(registration_plate);
+
   bool rental_found = false;
   bool upcoming_rentals_found = false;
 
   for (size_t i = 0; i < rentals_.size(); i++) {
-    if (rentals_[i]->GetNumberPlate() == registration_plate) {
+    if (rentals_[i]->GetNumberPlate() == upper_registration_plate) {
       rental_found = true;
       std::string start_date = rentals_[i]->GetStartDate();
       std::string end_date = rentals_[i]->GetEndDate();
