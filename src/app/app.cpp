@@ -111,6 +111,7 @@ void App::DisplayCars() const {
     }
   }
 }
+
 bool App::IsDateBefore(const std::string &date1,
                        const std::string &date2) const {
   int day1, month1, year1;
@@ -139,6 +140,7 @@ int App::DaysBetweenDates(const std::string &start_date,
   // Calculate the difference in days
   return (end_day - start_day) + 1;
 }
+
 void App::ConfigureDate(const std::string &date) {
   if (system_date_.empty()) {
     system_date_ = date;
@@ -156,6 +158,7 @@ void App::ConfigureDate(const std::string &date) {
   std::cout << "Current date configured to '" << system_date_ << "'."
             << std::endl;
 }
+
 void App::DisplayDate() const {
   if (system_date_.empty()) {
     std::cout << "Date has not been configured." << std::endl;
@@ -269,13 +272,12 @@ void App::DisplayRentals(const std::string &registration_plate) const {
       std::string start_date = rentals_[i]->GetStartDate();
       std::string end_date = rentals_[i]->GetEndDate();
 
-      bool is_current = IsDateBefore(start_date, system_date_);
-      bool is_upcoming = IsDateBefore(system_date_, end_date);
+      bool is_current = !IsDateBefore(end_date, system_date_) &&
+                        !IsDateBefore(system_date_, start_date);
+      bool is_upcoming = !IsDateBefore(start_date, system_date_);
 
       if (is_current || is_upcoming) {
-        if (is_upcoming) {
-          upcoming_rentals_found = true;
-        }
+        upcoming_rentals_found = true;
         std::cout << "* " << start_date << " - " << end_date << " ("
                   << DaysBetweenDates(start_date, end_date) << " days) - "
                   << rentals_[i]->GetRentalReference() << std::endl;
