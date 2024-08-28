@@ -240,8 +240,6 @@ void App::CreateRental(const std::vector<std::string> options) {
                  start_date, end_date, customer_id, rental_reference);
   rentals_.push_back(new_rental);
 
-  car->SetAvailability(false);
-
   // Calculate the number of days rented
   int days_rented = DaysBetweenDates(start_date, end_date);
 
