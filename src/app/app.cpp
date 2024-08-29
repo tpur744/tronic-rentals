@@ -174,13 +174,6 @@ void App::CreateRental(const std::vector<std::string> options) {
     return;
   }
 
-  if (options.size() != 4) {
-    std::cout
-        << "Incorrect number of arguments for CreateRental. Expected 4, but "
-        << options.size() << " provided." << std::endl;
-    return;
-  }
-
   std::string registration_plate = Utils::GetUppercase(options[0]);
   std::string start_date = options[1];
   std::string end_date = options[2];
@@ -297,8 +290,9 @@ void App::DisplayRentals(const std::string &registration_plate) const {
 
   // Output the appropriate message based on the results
   if (!car_exists) {
-    std::cout << "There is no car with the registration plate "
-              << registration_plate << std::endl;
+    std::cout << "There is no car with the registration plate '"
+              << registration_plate << "'." << std::endl;
+    return;
   } else if (!upcoming_rentals_found) {
     std::cout << "No upcoming rentals." << std::endl;
   }
