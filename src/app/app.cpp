@@ -299,11 +299,67 @@ void App::DisplayRentals(const std::string &registration_plate) const {
 }
 
 void App::AddGPSUnit(const std::string &rental_reference) {
-  // TODO implement
+  Rental *rental = nullptr;
+  for (size_t i = 0; i < rentals_.size(); ++i) {
+    if (rentals_[i]->GetRentalReference() == rental_reference) {
+      rental = rentals_[i];
+      break;
+    }
+  }
+
+  if (rental == nullptr) {
+    std::cout << "Rental reference '" << rental_reference
+              << "' not found, GPS Unit not added." << std::endl;
+    return;
+  }
+
+  // Check if the rental started before the current system date
+  if (IsDateBefore(rental->GetStartDate(), system_date_)) {
+    std::cout << "Rental '" << rental_reference
+              << "' is in the past, too late to add GPS Unit." << std::endl;
+    return;
+  }
+
+  int days_remaining = DaysBetweenDates(system_date_, rental->GetEndDate());
+
+  int gps_cost = std::min(days_remaining * 5, 25);
+
+  rental->AddGPSUnitCost(gps_cost);
+
+  std::cout << "GPS Unit added to rental '" << rental_reference << "'."
+            << std::endl;
 }
 
 void App::AddChildSeat(const std::string &rental_reference) {
-  // TODO implement
+  Rental *rental = nullptr;
+  for (size_t i = 0; i < rentals_.size(); ++i) {
+    if (rentals_[i]->GetRentalReference() == rental_reference) {
+      rental = rentals_[i];
+      break;
+    }
+  }
+
+  if (rental == nullptr) {
+    std::cout << "Rental reference '" << rental_reference
+              << "' not found, Child Seat not added." << std::endl;
+    return;
+  }
+
+  // Check if the rental started before the current system date
+  if (IsDateBefore(rental->GetStartDate(), system_date_)) {
+    std::cout << "Rental '" << rental_reference
+              << "' is in the past, too late to add Child Seat." << std::endl;
+    return;
+  }
+
+  int days_remaining = DaysBetweenDates(system_date_, rental->GetEndDate());
+
+  int child_seat_cost = std::min(days_remaining * 2, 10);
+
+  rental->AddChildSeatCost(child_seat_cost);
+
+  std::cout << "Child Seat added to rental '" << rental_reference << "'."
+            << std::endl;
 }
 
 void App::AddInsurance(const std::string &rental_reference) {

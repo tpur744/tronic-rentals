@@ -15,13 +15,18 @@ class Rental : public Car {
   std::string GetCustomerId() const;
   std::string GetRentalReference() const;
   bool OverlapsWith(const std::string &r_start_date, const std::string &r_end_date,
-	 const std::string &new_start_date,const std::string &new_end_date) const;
+	const std::string &new_start_date,const std::string &new_end_date) const;
+	void AddGPSUnitCost(int cost); // Method to add GPS cost
+	void AddChildSeatCost(int seat_cost);
+
 
  private:
   std::string start_date_;
   std::string end_date_;
   std::string customer_id_;
   std::string rental_reference_;
+	int gps_unit_cost_ = 0;
+	int child_seat_cost_ = 0;
 };
 
 #endif
