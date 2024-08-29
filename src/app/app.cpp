@@ -291,7 +291,7 @@ void App::DisplayRentals(const std::string &registration_plate) const {
   // Output the appropriate message based on the results
   if (!car_exists) {
     std::cout << "There is no car with the registration plate '"
-              << registration_plate << "'." << std::endl;
+              << upper_registration_plate << "'." << std::endl;
     return;
   } else if (!upcoming_rentals_found) {
     std::cout << "No upcoming rentals." << std::endl;
