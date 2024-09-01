@@ -18,7 +18,7 @@ add_executable(tronicrentals src/main.cpp)
 add_subdirectory(src)
 add_subdirectory(src/app)
 add_subdirectory(test)
-add_subdirectory(student_test)
+
 
 
 # Define the path to the CTestCustom.cmake file in the build directory

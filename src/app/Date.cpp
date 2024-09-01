@@ -1,7 +1,16 @@
 #include "Date.h"
 
-Date::Date(int day, int month, int year)
-    : day_(day), month_(month), year_(year) {}
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+
+Date::Date(const std::string& date_str) { ParseDate(date_str); }
+
+void Date::ParseDate(const std::string& date_str) {
+  sscanf(date_str.c_str(), "%d/%d/%d", &day_, &month_, &year_);
+}
 
 int Date::GetDay() const { return day_; }
 
@@ -19,5 +28,5 @@ bool Date::IsBefore(const Date& other) const {
 
 int Date::DaysBetween(const Date& other) const {
   // Calculate the difference in days
-  return std::abs(day_ - other.day_);
+  return std::abs(day_ - other.day_) + 1;
 }

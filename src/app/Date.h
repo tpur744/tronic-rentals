@@ -7,8 +7,7 @@
 class Date {
  public:
   // Constructors
-  Date(const std::string& date_str);   // Initialize from a string
-  Date(int day, int month, int year);  // Initialize with day, month, and year
+  Date(const std::string& date_str);  // Initialize from a string
 
   // Methods to get date components
   int GetDay() const;
@@ -16,6 +15,7 @@ class Date {
   int GetYear() const;
   bool IsBefore(const Date& other) const;
   int DaysBetween(const Date& other) const;
+  void ParseDate(const std::string& date_str);
 
  private:
   int day_;
