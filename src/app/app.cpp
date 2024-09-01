@@ -6,6 +6,7 @@
 
 #include "Car.h"
 #include "Date.h"
+#include "GpsAddOn.h"
 #include "Rental.h"
 #include "message.h"
 #include "utils.h"
@@ -267,7 +268,34 @@ void App::DisplayRentals(const std::string &registration_plate) const {
   }
 }
 
-void App::AddGPSUnit(const std::string &rental_reference) {}
+void App::AddGPSUnit(const std::string &rental_reference) {
+  Rental *rental = nullptr;
+  for (Rental *r : rentals_) {
+    if (r->GetRentalReference() == rental_reference) {
+      rental = r;
+      break;
+    }
+  }
+  if (!rental) {
+    std::cout << "Rental reference '" << rental_reference
+              << "' not found, GPS Unit not added." << std::endl;
+    return;
+  }
+
+  Date rental_start_date(rental->GetStartDate());
+  if (rental_start_date.IsBefore(system_date_)) {
+    std::cout << "Rental '" << rental_reference
+              << "' is in the past, too late to add GPS Unit." << std::endl;
+    return;
+  }
+
+  GPSAddOn *gps_add_on = new GPSAddOn();
+  int days_rented = rental_start_date.DaysBetween(Date(rental->GetEndDate()));
+  int cost = gps_add_on->GetCost(days_rented);
+  rental->AddAddOn(gps_add_on);
+  std::cout << "GPS Unit added to rental '" << rental_reference << "'."
+            << std::endl;
+}
 
 void App::AddChildSeat(const std::string &rental_reference) {}
 
