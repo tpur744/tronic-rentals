@@ -6,6 +6,7 @@
 
 #include "Car.h"
 #include "Date.h"
+#include "Rental.h"
 
 /*
 ----------------------------------------------------------------------------
@@ -17,14 +18,12 @@
 class App {
  private:
   std::vector<Car *> cars_;
+  std::vector<Rental *> rentals_;
   Date system_date_;
   bool date_set_;
 
   bool IsValidRegistrationPlate(const std::string &registration_plate);
   bool IsUniqueRegistrationPlate(const std::string &registration_plate) const;
-  bool IsDateBefore(const std::string &date1, const std::string &date2) const;
-  int DaysBetweenDates(const std::string &start_date,
-                       const std::string &end_date) const;
 
  public:
   App();

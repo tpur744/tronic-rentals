@@ -2,9 +2,11 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "Car.h"
 #include "Date.h"
+#include "Rental.h"
 #include "message.h"
 #include "utils.h"
 
@@ -145,7 +147,78 @@ void App::DisplayDate() const {
   }
 }
 
-void App::CreateRental(const std::vector<std::string> options) {}
+void App::CreateRental(const std::vector<std::string> options) {
+  if (!date_set_) {
+    std::cout << "Date has not been configured." << std::endl;
+    return;
+  }
+
+  std::string registration_plate = Utils::GetUppercase(options[0]);
+  Date start_date = options[1];
+  Date end_date = options[2];
+  std::string customer_id = Utils::GetLowercase(options[3]);
+
+  Car *car = nullptr;
+  for (size_t i = 0; i < cars_.size(); ++i) {
+    if (cars_[i]->GetNumberPlate() == registration_plate) {
+      car = cars_[i];
+      break;
+    }
+  }
+
+  if (car == nullptr) {
+    std::cout << "There is no car with the registration plate '"
+              << registration_plate << "'." << std::endl;
+    return;
+  }
+  if (start_date.IsBefore(system_date_)) {
+    std::cout << "Start date must be today (" << system_date_.ToString()
+              << ") or later." << std::endl;
+    return;
+  }
+  if (end_date.IsBefore(start_date)) {
+    std::cout << "End date must be on or after the start date ("
+              << start_date.ToString() << ")." << std::endl;
+    return;
+  }
+  for (size_t i = 0; i < rentals_.size(); ++i) {
+    // Convert rental start and end dates from strings to Date objects
+    Date rental_start_date(rentals_[i]->GetStartDate());
+    Date rental_end_date(rentals_[i]->GetEndDate());
+
+    if (rentals_[i]->GetNumberPlate() == registration_plate &&
+        rentals_[i]->OverlapsWith(rental_start_date, rental_end_date,
+                                  start_date, end_date)) {
+      std::cout << "Car with registration plate '" << registration_plate
+                << "' is already rented at this time ("
+                << rentals_[i]->GetRentalReference() << ")." << std::endl;
+      return;
+    }
+  }
+
+  int rental_count = 0;
+  for (Rental *rental : rentals_) {
+    if (rental->GetNumberPlate() == registration_plate) {
+      rental_count++;
+    }
+  }
+  std::string rental_reference = "RR-" +
+                                 Utils::GetUppercase(registration_plate) + "-" +
+                                 std::to_string(rental_count + 1);
+
+  Rental *new_rental =
+      new Rental(registration_plate, car->GetModel(), car->GetRentalFee(),
+                 start_date, end_date, customer_id, rental_reference);
+  rentals_.push_back(new_rental);
+
+  int days_rented = start_date.DaysBetween(end_date);
+
+  std::cout << "Car with registration plate '" << registration_plate
+            << "' is now rented to '" << customer_id << "' for " << days_rented
+            << " day" << (days_rented > 1 ? "s" : "")
+            << " with reference number '" << rental_reference << "'."
+            << std::endl;
+}
 
 void App::DisplayRentals(const std::string &registration_plate) const {
   // TODO implement

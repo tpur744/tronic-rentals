@@ -9,13 +9,13 @@ class Car {
       const std::string &daily_rental_fee);
 
   // getter methods
-  std::string GetNumberPlate() const;
+  virtual std::string GetNumberPlate() const;
   std::string GetModel() const;
   std::string GetRentalFee() const;
   bool IsAvailable() const;
   void SetAvailability(bool availability);
 
- private:
+ protected:
   std::string registration_plate_;
   std::string make_;
   std::string daily_rental_fee_;

@@ -1,9 +1,9 @@
 #ifndef RENTAL_H
 #define RENTAL_H
 
-#include "Car.h"
-#include "Date.h"
 #include <string>
+#include "Date.h"
+#include "Car.h"
 
 class Rental : public Car {
 public:
@@ -12,11 +12,11 @@ public:
            const Date &end_date, const std::string &customer_id,
            const std::string &rental_reference);
 
-    Date GetStartDate() const;
-    Date GetEndDate() const;
+    std::string GetStartDate() const;
+    std::string GetEndDate() const;
     std::string GetCustomerId() const;
     std::string GetRentalReference() const;
-
+    std::string GetNumberPlate() const;
     bool OverlapsWith(const Date &start_date1, const Date &end_date1,
                       const Date &start_date2, const Date &end_date2) const;
 

@@ -5,6 +5,7 @@
 
 class Date {
  public:
+  Date();
   Date(const std::string& date_str);
 
   int GetDay() const;
