@@ -221,7 +221,50 @@ void App::CreateRental(const std::vector<std::string> options) {
 }
 
 void App::DisplayRentals(const std::string &registration_plate) const {
-  // TODO implement
+  if (!date_set_) {
+    std::cout << "Date has not been configured." << std::endl;
+    return;
+  }
+
+  std::string upper_registration_plate =
+      Utils::GetUppercase(registration_plate);
+
+  bool rental_found = false;
+  bool upcoming_rentals_found = false;
+  bool car_exists = false;
+
+  // Check if the car exists
+  for (const Car *car : cars_) {
+    if (car->GetNumberPlate() == upper_registration_plate) {
+      car_exists = true;
+      break;
+    }
+  }
+  for (const Rental *rental : rentals_) {
+    if (rental->GetNumberPlate() == upper_registration_plate) {
+      rental_found = true;
+      Date start_date(rental->GetStartDate());
+      Date end_date(rental->GetEndDate());
+
+      bool is_current =
+          !(end_date < system_date_) && !(system_date_ < start_date);
+      bool is_upcoming = start_date > system_date_;
+
+      if (is_current || is_upcoming) {
+        upcoming_rentals_found = true;
+        int days_rented = start_date.DaysBetween(end_date);
+        std::cout << "* " << start_date.ToString() << " - "
+                  << end_date.ToString() << " (" << days_rented << " days) - "
+                  << rental->GetRentalReference() << std::endl;
+      }
+    }
+  }
+  if (!car_exists) {
+    std::cout << "There is no car with the registration plate '"
+              << upper_registration_plate << "'." << std::endl;
+  } else if (!upcoming_rentals_found) {
+    std::cout << "No upcoming rentals." << std::endl;
+  }
 }
 
 void App::AddGPSUnit(const std::string &rental_reference) {}
