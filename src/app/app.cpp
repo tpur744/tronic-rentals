@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Car.h"
+#include "ChildSeatAddOn.h"
 #include "Date.h"
 #include "GpsAddOn.h"
 #include "Rental.h"
@@ -297,7 +298,44 @@ void App::AddGPSUnit(const std::string &rental_reference) {
             << std::endl;
 }
 
-void App::AddChildSeat(const std::string &rental_reference) {}
+void App::AddChildSeat(const std::string &rental_reference) {
+  // Find the rental by reference
+  Rental *rental = nullptr;
+  for (Rental *r : rentals_) {
+    if (r->GetRentalReference() == rental_reference) {
+      rental = r;
+      break;
+    }
+  }
+
+  // If rental reference is not found
+  if (!rental) {
+    std::cout << "Rental reference '" << rental_reference
+              << "' not found, Child Seat not added." << std::endl;
+    return;
+  }
+
+  // Check if the rental start date is before the system date
+  Date rental_start_date(rental->GetStartDate());
+  if (rental_start_date.IsBefore(system_date_)) {
+    std::cout << "Rental '" << rental_reference
+              << "' is in the past, too late to add Child Seat." << std::endl;
+    return;
+  }
+
+  // Create a new ChildSeatAddOn object
+  ChildSeatAddOn *child_seat_add_on = new ChildSeatAddOn();
+
+  // Calculate the cost based on the number of days rented
+  int days_rented = rental_start_date.DaysBetween(Date(rental->GetEndDate()));
+  int cost = child_seat_add_on->GetCost(days_rented);
+
+  // Add the child seat add-on to the rental
+  rental->AddAddOn(child_seat_add_on);
+
+  std::cout << "Child Seat added to rental '" << rental_reference << "'."
+            << std::endl;
+}
 
 void App::AddInsurance(const std::string &rental_reference) {
   // TODO implement

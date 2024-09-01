@@ -6,6 +6,7 @@
 
 #include "AddOn.h"
 #include "Car.h"
+#include "ChildSeatAddOn.h"
 #include "Date.h"
 #include "GpsAddOn.h"
 #include "Rental.h"
