@@ -115,7 +115,8 @@ void App::ConfigureDate(const std::string &date_str) {
   Date new_date(date_str);
 
   if (date_set_ && new_date.IsBefore(system_date_)) {
-    std::cout << "Error: New date is before the current date." << std::endl;
+    std::cout << "Cannot configure to a date before the current date."
+              << std::endl;
     return;
   }
 
@@ -127,16 +128,23 @@ void App::ConfigureDate(const std::string &date_str) {
   int month = system_date_.GetMonth();
   int year = system_date_.GetYear();
 
-  std::string day_str =
+  std::string day_string =
       (day < 10) ? "0" + std::to_string(day) : std::to_string(day);
-  std::string month_str =
+  std::string month_string =
       (month < 10) ? "0" + std::to_string(month) : std::to_string(month);
 
-  std::cout << "Date configured to '" << day_str << "/" << month_str << "/"
-            << year << "'." << std::endl;
+  std::cout << "Date configured to '" << day_string << "/" << month_string
+            << "/" << year << "'." << std::endl;
 }
 
-void App::DisplayDate() const {}
+void App::DisplayDate() const {
+  if (date_set_) {
+    std::cout << "Current system date is '" << system_date_.ToString() << "'."
+              << endl;
+  } else {
+    std::cout << "Date has not been configured." << std::endl;
+  }
+}
 
 void App::CreateRental(const std::vector<std::string> options) {}
 

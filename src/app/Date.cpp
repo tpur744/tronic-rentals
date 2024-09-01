@@ -30,3 +30,11 @@ int Date::DaysBetween(const Date& other) const {
   // Calculate the difference in days
   return std::abs(day_ - other.day_) + 1;
 }
+
+std::string Date::ToString() const {
+  std::string day_str = (day_ < 10 ? "0" : "") + std::to_string(day_);
+  std::string month_str = (month_ < 10 ? "0" : "") + std::to_string(month_);
+  std::string year_str = std::to_string(year_);
+
+  return day_str + "/" + month_str + "/" + year_str;
+}

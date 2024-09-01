@@ -16,6 +16,7 @@ class Date {
   bool IsBefore(const Date& other) const;
   int DaysBetween(const Date& other) const;
   void ParseDate(const std::string& date_str);
+  std::string ToString() const;
 
  private:
   int day_;
