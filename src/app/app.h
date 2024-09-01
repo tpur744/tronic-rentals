@@ -6,7 +6,6 @@
 
 #include "Car.h"
 #include "Date.h"
-#include "Rental.h"
 
 /*
 ----------------------------------------------------------------------------
@@ -18,7 +17,6 @@
 class App {
  private:
   std::vector<Car *> cars_;
-  std::vector<Rental *> rentals_;
   Date system_date_;
   bool date_set_;
 
