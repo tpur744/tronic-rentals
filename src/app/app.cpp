@@ -105,7 +105,7 @@ void App::DisplayCars() const {
   for (size_t i = 0; i < count; i++) {
     // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
-      std::cout << "* '" << cars_[i]->GetNumberPlate() << "' - "
+      std::cout << "  * '" << cars_[i]->GetNumberPlate() << "' - "
                 << cars_[i]->GetModel() << ", " << "$"
                 << cars_[i]->GetRentalFee() << "/day, "
                 << (cars_[i]->IsAvailable() ? "available" : "not available")
@@ -255,7 +255,7 @@ void App::DisplayRentals(const std::string &registration_plate) const {
       if (is_current || is_upcoming) {
         upcoming_rentals_found = true;
         int days_rented = start_date.DaysBetween(end_date);
-        std::cout << "* " << start_date.ToString() << " - "
+        std::cout << "  * " << start_date.ToString() << " - "
                   << end_date.ToString() << " (" << days_rented << " days) - "
                   << rental->GetRentalReference() << std::endl;
       }

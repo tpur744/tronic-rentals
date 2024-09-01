@@ -1,7 +1,9 @@
 #include "Rental.h"
+
+#include <vector>
+
 #include "Car.h"
 #include "Date.h"
-#include <vector>
 Rental::Rental(const std::string &registration_plate, const std::string &make,
                const std::string &daily_rental_fee, const Date &start_date,
                const Date &end_date, const std::string &customer_id,
@@ -31,4 +33,4 @@ bool Rental::OverlapsWith(const Date &start_date1, const Date &end_date1,
   return !(end_date1 < start_date2 || end_date2 < start_date1);
 }
 
-void Rental::AddAddOn(AddOn *add_on) {add_ons_.push_back(add_on); }
+void Rental::AddAddOn(AddOn *add_on) { add_ons_.push_back(add_on); }
