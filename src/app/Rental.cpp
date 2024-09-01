@@ -27,6 +27,10 @@ std::string Rental::GetNumberPlate() const {
                                  // implementcation
 }
 
+std::string Rental::GetRentalFee() const {
+  return Car::GetRentalFee();  
+}
+
 bool Rental::OverlapsWith(const Date &start_date1, const Date &end_date1,
                           const Date &start_date2,
                           const Date &end_date2) const {

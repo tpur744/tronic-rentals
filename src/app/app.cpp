@@ -8,10 +8,10 @@
 #include "ChildSeatAddOn.h"
 #include "Date.h"
 #include "GpsAddOn.h"
+#include "InsuranceAddOn.h"
 #include "Rental.h"
 #include "message.h"
 #include "utils.h"
-
 using namespace std;
 
 /*
@@ -338,7 +338,34 @@ void App::AddChildSeat(const std::string &rental_reference) {
 }
 
 void App::AddInsurance(const std::string &rental_reference) {
-  // TODO implement
+  Rental *rental = nullptr;
+  for (Rental *r : rentals_) {
+    if (r->GetRentalReference() == rental_reference) {
+      rental = r;
+      break;
+    }
+  }
+  if (!rental) {
+    std::cout << "Rental reference '" << rental_reference
+              << "' not found, Insurance not added." << std::endl;
+    return;
+  }
+
+  Date rental_start_date(rental->GetStartDate());
+  if (rental_start_date.IsBefore(system_date_)) {
+    std::cout << "Rental '" << rental_reference
+              << "' is in the past, too late to add Insurance." << std::endl;
+    return;
+  }
+  int daily_rental_fee = stoi(rental->GetRentalFee());
+  int days_rented = rental_start_date.DaysBetween(Date(rental->GetEndDate()));
+  InsuranceAddOn *insurance_add_on = new InsuranceAddOn();
+
+  int total_rental_fee = daily_rental_fee * days_rented;
+  int cost = total_rental_fee * insurance_add_on->insurance_rate;
+  rental->AddAddOn(insurance_add_on);
+  std::cout << "Insurance added to rental '" << rental_reference << "'."
+            << std::endl;
 }
 
 void App::DisplayReceipt(const std::string &rental_reference) const {

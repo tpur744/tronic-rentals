@@ -11,7 +11,7 @@ class Car {
   // getter methods
   virtual std::string GetNumberPlate() const;
   std::string GetModel() const;
-  std::string GetRentalFee() const;
+  virtual std::string GetRentalFee() const;
   bool IsAvailable() const;
   void SetAvailability(bool availability);
 
