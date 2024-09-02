@@ -366,7 +366,6 @@ void App::AddInsurance(const std::string &rental_reference) {
   std::cout << "Insurance added to rental '" << rental_reference << "'."
             << std::endl;
 }
-
 void App::DisplayReceipt(const std::string &rental_reference) const {
   Rental *rental = nullptr;
   for (Rental *r : rentals_) {
@@ -380,12 +379,14 @@ void App::DisplayReceipt(const std::string &rental_reference) const {
               << "' not found, no receipt to display." << std::endl;
     return;
   }
+
   Date start_date(rental->GetStartDate());
   Date end_date(rental->GetEndDate());
   int days_rented = start_date.DaysBetween(end_date);
 
   int daily_rental_fee = std::stoi(rental->GetRentalFee());
   int car_rental_cost;
+
   if (days_rented <= 4) {
     car_rental_cost = daily_rental_fee * days_rented;
   } else {
@@ -393,14 +394,13 @@ void App::DisplayReceipt(const std::string &rental_reference) const {
     car_rental_cost =
         (daily_rental_fee * 4) + (daily_rental_fee / 2) * discounted_days;
   }
+
   int gps_cost = 0;
   int child_seat_cost = 0;
   int insurance_cost = 0;
 
-  std::vector<AddOn *> add_ons =
-      rental->GetAddOns();  // Accessing add_ons_ directly
-  for (size_t i = 0; i < add_ons.size(); ++i) {
-    AddOn *add_on = add_ons[i];
+  std::vector<AddOn *> add_ons = rental->GetAddOns();
+  for (AddOn *add_on : add_ons) {
     int cost = add_on->GetCost(days_rented, daily_rental_fee);
     switch (add_on->GetType()) {
       case AddOn::GPS:
@@ -414,10 +414,10 @@ void App::DisplayReceipt(const std::string &rental_reference) const {
         break;
     }
   }
+
   int grand_total =
       car_rental_cost + gps_cost + child_seat_cost + insurance_cost;
 
-  // Print receipt
   std::cout
       << "\n===============================================================\n"
       << "                           RECEIPT\n"
@@ -432,7 +432,6 @@ void App::DisplayReceipt(const std::string &rental_reference) const {
       << "Cost Breakdown:\n"
       << "  Car Rental: $" << car_rental_cost << "\n";
 
-  // Print addon costs
   if (gps_cost > 0) {
     std::cout << "  GPS Unit Add-on: $" << gps_cost << "\n";
   }
@@ -443,7 +442,6 @@ void App::DisplayReceipt(const std::string &rental_reference) const {
     std::cout << "  Insurance Add-on: $" << insurance_cost << "\n";
   }
 
-  // Print grand total
   std::cout
       << "\nGRAND TOTAL: $" << grand_total << "\n\n"
       << "Thank you for choosing TronicRentals!\n"
