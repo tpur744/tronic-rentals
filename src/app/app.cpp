@@ -102,14 +102,25 @@ void App::DisplayCars() const {
     cout << "There are " << count << " cars in the system:" << endl;
   }
 
+  Date today = system_date_;
   for (size_t i = 0; i < count; i++) {
-    // Ensure cars_[i] is not null before dereferencing
     if (cars_[i] != nullptr) {
+      bool is_available = true;
+      for (const auto &rental : rentals_) {
+        if (rental->GetNumberPlate() == cars_[i]->GetNumberPlate()) {
+          Date rental_start_date(rental->GetStartDate());
+          Date rental_end_date(rental->GetEndDate());
+          if (!(today > rental_end_date || today < rental_start_date)) {
+            is_available = false;
+            break;
+          }
+        }
+      }
+
       std::cout << "  * '" << cars_[i]->GetNumberPlate() << "' - "
                 << cars_[i]->GetModel() << ", " << "$"
                 << cars_[i]->GetRentalFee() << "/day, "
-                << (cars_[i]->IsAvailable() ? "available" : "not available")
-                << std::endl;
+                << (is_available ? "available" : "not available") << std::endl;
     }
   }
 }
@@ -366,6 +377,7 @@ void App::AddInsurance(const std::string &rental_reference) {
   std::cout << "Insurance added to rental '" << rental_reference << "'."
             << std::endl;
 }
+
 void App::DisplayReceipt(const std::string &rental_reference) const {
   Rental *rental = nullptr;
   for (Rental *r : rentals_) {
