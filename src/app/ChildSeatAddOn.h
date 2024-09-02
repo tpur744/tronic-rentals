@@ -6,9 +6,10 @@
 
 class ChildSeatAddOn : public AddOn {
  public:
-  ChildSeatAddOn() : AddOn(AddOn::ChildSeat) {}
+  // Corrected constructor definition
+  ChildSeatAddOn();
 
-  int GetCost(int days_rented) const override;
+  int GetCost(int days_rented, int daily_rental_fee) const override;
   bool IsRentalValid(const Date& system_date,
                      const Date& start_date) const override;
 

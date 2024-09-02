@@ -9,7 +9,7 @@ class AddOn {
 
   AddOn(AddOnType type) : type_(type) {}
 
-  virtual int GetCost(int days_rented) const = 0;
+  virtual int GetCost(int days_rented, int daily_rental_fee) const = 0;
   virtual bool IsRentalValid(const Date& system_date,
                              const Date& start_date) const = 0;
 

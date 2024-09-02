@@ -23,6 +23,7 @@ class Rental : public Car {
   bool OverlapsWith(const Date &start_date1, const Date &end_date1,
                     const Date &start_date2, const Date &end_date2) const;
   void AddAddOn(AddOn *add_on);
+  std::vector<AddOn*> GetAddOns() const;
 
  private:
   Date start_date_;
@@ -30,6 +31,7 @@ class Rental : public Car {
   std::string customer_id_;
   std::string rental_reference_;
   std::vector<AddOn *> add_ons_;
+  
 };
 
 #endif  // RENTAL_H

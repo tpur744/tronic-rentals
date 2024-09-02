@@ -38,3 +38,7 @@ bool Rental::OverlapsWith(const Date &start_date1, const Date &end_date1,
 }
 
 void Rental::AddAddOn(AddOn *add_on) { add_ons_.push_back(add_on); }
+
+std::vector<AddOn*> Rental::GetAddOns() const {
+  return add_ons_;
+}

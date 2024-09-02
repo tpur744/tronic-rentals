@@ -4,7 +4,7 @@
 
 ChildSeatAddOn::ChildSeatAddOn() : AddOn(AddOn::ChildSeat) {}
 
-int ChildSeatAddOn::GetCost(int days_rented) const {
+int ChildSeatAddOn::GetCost(int days_rented, int daily_rental_fee) const {
   return std::min(daily_cost * days_rented, max_cost);
 }
 
