@@ -5,7 +5,7 @@
 
 class InsuranceAddOn : public AddOn {
  public:
-  InsuranceAddOn();
+  InsuranceAddOn() : AddOn(AddOn::Insurance) {};
 
   int GetCost(int days_rented) const override;
 

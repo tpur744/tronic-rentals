@@ -2,7 +2,7 @@
 
 #include "Date.h"
 
-ChildSeatAddOn::ChildSeatAddOn() {}
+ChildSeatAddOn::ChildSeatAddOn() : AddOn(AddOn::ChildSeat) {}
 
 int ChildSeatAddOn::GetCost(int days_rented) const {
   return std::min(daily_cost * days_rented, max_cost);

@@ -6,7 +6,7 @@
 
 class ChildSeatAddOn : public AddOn {
  public:
-  ChildSeatAddOn();
+  ChildSeatAddOn() : AddOn(AddOn::ChildSeat) {}
 
   int GetCost(int days_rented) const override;
   bool IsRentalValid(const Date& system_date,

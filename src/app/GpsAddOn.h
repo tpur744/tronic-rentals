@@ -5,7 +5,7 @@
 
 class GPSAddOn : public AddOn {
  public:
-  GPSAddOn();
+  GPSAddOn() : AddOn(AddOn::GPS) {};
 
   int GetCost(int days_rented) const override;
   bool IsRentalValid(const Date& system_date,

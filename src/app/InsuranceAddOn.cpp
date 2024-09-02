@@ -2,7 +2,7 @@
 
 #include "Date.h"
 
-InsuranceAddOn::InsuranceAddOn() {}
+InsuranceAddOn::InsuranceAddOn() : AddOn(AddOn::Insurance) {}
 
 int InsuranceAddOn::GetCost(int days_rented) const { return 0; }
 
