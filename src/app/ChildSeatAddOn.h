@@ -14,8 +14,8 @@ class ChildSeatAddOn : public AddOn {
                      const Date& start_date) const override;
 
  private:
-  const int max_cost = 10;   // Max cost of Child Seat add-on
-  const int daily_cost = 2;  // Daily cost of Child Seat add-on
+  const int max_cost_ = 10;   // Max cost of Child Seat add-on
+  const int daily_cost_ = 2;  // Daily cost of Child Seat add-on
 };
 
 #endif  // CHILDSEATADDON_H

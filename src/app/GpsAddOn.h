@@ -12,8 +12,8 @@ class GPSAddOn : public AddOn {
                      const Date& start_date) const override;
 
  private:
-  const int max_cost = 25;   // Max cost of GPS add-on
-  const int daily_cost = 5;  // Daily cost of GPS add-on
+  const int max_cost_ = 25;   // Max cost of GPS add-on
+  const int daily_cost_ = 5;  // Daily cost of GPS add-on
 };
 
 #endif  // GPSADDON_H

@@ -13,7 +13,7 @@ int InsuranceAddOn::GetCost(int days_rented, int daily_rental_fee) const {
     car_rental_cost =
         (daily_rental_fee * 4) + (daily_rental_fee / 2) * discounted_days;
   }
-  return car_rental_cost * insurance_rate;
+  return car_rental_cost * insurance_rate_;
 }
 bool InsuranceAddOn::IsRentalValid(const Date& system_date,
                                    const Date& start_date) const {

@@ -31,7 +31,6 @@ class Rental : public Car {
   std::string customer_id_;
   std::string rental_reference_;
   std::vector<AddOn *> add_ons_;
-  
 };
 
 #endif  // RENTAL_H

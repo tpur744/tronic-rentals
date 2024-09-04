@@ -32,7 +32,7 @@ std::string Date::ToString() const {
   std::string month_str = (month_ < 10 ? "0" : "") + std::to_string(month_);
   std::string year_str = std::to_string(year_);
   return day_str + "/" + month_str + "/" + year_str;
-};
+}
 
 // Implement comparison operators
 bool Date::operator<(const Date& other) const { return IsBefore(other); }

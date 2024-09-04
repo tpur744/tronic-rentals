@@ -11,7 +11,7 @@ class InsuranceAddOn : public AddOn {
 
   bool IsRentalValid(const Date& system_date,
                      const Date& start_date) const override;
-  const double insurance_rate = 0.05;  // 5% of the total rental fee
+  const double insurance_rate_ = 0.05;  // 5% of the total rental fee
 };
 
 #endif  // INSURANCEADDON_H
